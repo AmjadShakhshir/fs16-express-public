@@ -17,9 +17,13 @@ const createUser = (user: User) => {
     return newUser;
 };
 
-const updateUser = (index: number, user: UserUpdate) => {
-    const updatedUser = usersRepo.updateUser(index, user)
-    return updatedUser
+const updateUser = (index: number, updatedUser: UserUpdate) => {
+    const existingEmail = usersRepo.getAll().find(user => user.email === updatedUser.body?.email);
+    if (existingEmail) {
+        return null;
+    } 
+    const updatedData = usersRepo.updateUser(index, updatedUser)
+    return updatedData;
 };
 
 const deleteUser = (index: number) => {
