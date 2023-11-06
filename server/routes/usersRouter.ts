@@ -1,6 +1,6 @@
 import express from 'express';
 
-import { usersController } from '../controllers/users';
+import usersController from '../controllers/users';
 import { validate } from '../middlewares/validate';
 import { userSchema } from '../schemas/userSchema';
 

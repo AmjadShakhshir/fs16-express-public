@@ -1,38 +1,38 @@
-import { UserRepo } from "../models/UserModel";
+import UserRepo from "../models/UserModel";
 import { User, UserUpdate } from "../types/User";
 
-const usersRepo = new UserRepo();
+async function findAll() {
+    const users = await UserRepo.find().exec();
+    return users;
+}
 
-const getAllUsers = () => {
-    return usersRepo.getAll();
-};
-
-const getSingleUser = (userId: number) => {
-    const user = usersRepo.getSingle(userId);
+async function getSingleUser(index: number) {
+    const user = await UserRepo.findOne({ id: index }).exec();
     return user;
-};
+}
 
-const createUser = (user: User) => {
-    const newUser = usersRepo.createUser(user);
+async function createUser(user: User) {
+    const newUser = new UserRepo(user);
+    await newUser.save();
     return newUser;
-};
+}
 
-const updateUser = (index: number, updatedUser: UserUpdate) => {
-    const existingEmail = usersRepo.getAll().find(user => user.email === updatedUser.body?.email);
-    if (existingEmail) {
-        return null;
-    } 
-    const updatedData = usersRepo.updateUser(index, updatedUser)
-    return updatedData;
-};
+async function updateUser(index: number, user: UserUpdate) {
+    const updatedUser = await UserRepo.findOneAndUpdate(
+        { id: index },
+        user,
+        { new: true }
+    ).exec();
+    return updatedUser;
+}
 
-const deleteUser = (index: number) => {
-    usersRepo.deleteUser(index)
-    return
-};
+async function deleteUser(index: number) {
+    const deletedUser = await UserRepo.findOneAndDelete({ id: index }).exec();
+    return deletedUser;
+}
 
 export default {
-    getAllUsers,
+    findAll,
     getSingleUser,
     createUser,
     updateUser,
