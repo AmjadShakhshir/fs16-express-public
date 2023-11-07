@@ -1,4 +1,4 @@
-import mongoose, { mongo } from "mongoose";
+import mongoose from "mongoose";
 import UserRepo from "../models/UserModel";
 import { User, UserUpdate } from "../types/User";
 
@@ -19,17 +19,17 @@ async function createUser(user: User) {
     return newUser;
 }
 
-async function updateUser(index: number, user: UserUpdate) {
+async function updateUser(index: string, user: UserUpdate) {
     const updatedUser = await UserRepo.findOneAndUpdate(
-        { id: index },
+        { _id: index },
         user,
         { new: true }
-    ).exec();
+    );
     return updatedUser;
 }
 
-async function deleteUser(index: number) {
-    const deletedUser = await UserRepo.findOneAndDelete({ id: index }).exec();
+async function deleteUser(index: string) {
+    const deletedUser = await UserRepo.findOneAndDelete({ _id: index });
     return deletedUser;
 }
 
