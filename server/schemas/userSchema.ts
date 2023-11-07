@@ -1,7 +1,6 @@
 import { z } from 'zod';
 
-export const userBodySchema = z.object({
-    id: z.number().default(1),
+export const userBodySchema = z.object({ 
     name: z.string()
     .min(3, { message:
         "Must be at least 3 characters long"
