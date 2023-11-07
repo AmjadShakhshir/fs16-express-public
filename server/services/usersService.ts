@@ -1,3 +1,4 @@
+import mongoose, { mongo } from "mongoose";
 import UserRepo from "../models/UserModel";
 import { User, UserUpdate } from "../types/User";
 
@@ -6,8 +7,9 @@ async function findAll() {
     return users;
 }
 
-async function getSingleUser(index: number) {
-    const user = await UserRepo.findOne({ id: index }).exec();
+async function getSingleUser(index: string) {
+    const id = new mongoose.Types.ObjectId(index);
+    const user = await UserRepo.findById(id);
     return user;
 }
 
